@@ -26,7 +26,7 @@ body::-webkit-scrollbar-thumb {
   justify-content: center;
 }
 
-.success-button{
+.SuccessButton{
   border: none;
   color: #5C9210;
   padding: 10px;
@@ -36,12 +36,17 @@ body::-webkit-scrollbar-thumb {
   border-radius: 4px;
 }
 
-.success-button:hover{
+.SuccessButton:hover{
   color: white;
   background-color: #5C9210;
 }
 
-.error-button{
+.SuccessButton:disabled{
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.ErrorButton{
   border: none;
   color: #944317;
   padding: 10px;
@@ -51,7 +56,7 @@ body::-webkit-scrollbar-thumb {
   border-radius: 4px;
 }
 
-.error-button:hover{
+.ErrorButton:hover{
   color: white;
   background-color: #944317;
 }

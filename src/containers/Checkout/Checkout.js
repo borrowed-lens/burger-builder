@@ -33,12 +33,12 @@ class Checkout extends Component {
             <>
                 <CheckoutSummary ingredients={this.state.ingredients} />
                 <button
-                    className='error-button'
+                    className='ErrorButton'
                     onClick={this.checkoutCancelledHandler}>
                     CANCEL
                 </button>
                 <button
-                    className='success-button'
+                    className='SuccessButton'
                     onClick={this.checkoutContinueHandler}>
                     CONTINUE
                 </button>

@@ -3,12 +3,13 @@ import React, { Component } from 'react';
 import Order from './Order/Order';
 import axios from '../../axios';
 import withErrorHOC from '../../HOC/WithError/withErrorHOC';
+import Spinner from '../UI/Spinner/Spinner';
 
 class Orders extends Component {
     state = {
         orders: null,
         loading: true,
-        error: false
+        error: false,
     };
     componentDidMount() {
         axios
@@ -23,17 +24,24 @@ class Orders extends Component {
             });
     }
     render() {
-        let orders = [];
-        for (let order in this.state.orders) {
-            orders.push(
-                <Order
-                    ingredients={this.state.orders[order].ingredients}
-                    price={this.state.orders[order].price}
-                    key={order}
-                />
-            );
+        let orders = <Spinner />;
+        if (this.state.orders) {
+            orders = [];
+            for (let order in this.state.orders) {
+                orders.push(
+                    <Order
+                        ingredients={this.state.orders[order].ingredients}
+                        price={this.state.orders[order].price}
+                        key={order}
+                    />
+                );
+            }
         }
-        return this.props.error ? <div>{orders}</div>: <div className='centered'>we ran into some kind of trouble!</div>;
+        return this.state.error ? (
+            <div className='centered'>we ran into some kind of trouble!</div>
+        ) : (
+            <div>{orders}</div>
+        );
     }
 }
 

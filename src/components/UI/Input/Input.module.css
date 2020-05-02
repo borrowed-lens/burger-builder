@@ -1,0 +1,24 @@
+.Input {
+    width: 50%;
+    margin: auto;
+    box-sizing: border-box;
+}
+
+.Label {
+    width: 80%;
+}
+
+.InputElement {
+    width: 100%;
+    outline: none;
+    border: 1px solid #ccc;
+    background-color: #eee;
+    border-radius: 4px;
+    padding: 5px;
+    box-sizing: border-box;
+    margin: 5px 0px;
+}
+
+.Invalid {
+    border: 1px solid #fa6d6d;
+}

@@ -19,10 +19,10 @@ const orderSummary = ({ ingredients, price, cancel, checkout }) => {
                 this will cost you just <strong>Rs.{price}/-</strong>
             </div>
             <div>shall we proceed to checkout?</div>
-            <button className='error-button' onClick={cancel}>
+            <button className='ErrorButton' onClick={cancel}>
                 CANCEL
             </button>
-            <button className='success-button' onClick={checkout}>
+            <button className='SuccessButton' onClick={checkout}>
                 CONTINUE
             </button>
         </>
