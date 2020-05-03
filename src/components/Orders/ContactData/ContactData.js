@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import classes from './ContactData.module.css';
 import axios from '../../../axios';
@@ -67,6 +69,7 @@ class ContactData extends Component {
         });
     };
     render() {
+        console.log(this.props)
         let formElementsArray = [];
         for (let key in this.state.customerForm) {
             formElementsArray.push({
@@ -104,4 +107,11 @@ class ContactData extends Component {
     }
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+    return {
+        ingredients: state.ingredients,
+        totalPrice: state.totalPrice,
+    };
+}
+
+export default connect(mapStateToProps)(withRouter(ContactData));
