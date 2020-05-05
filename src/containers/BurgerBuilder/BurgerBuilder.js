@@ -8,15 +8,16 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withError from '../../HOC/WithError/withErrorHOC';
-import * as ActionTypes from '../../store/actions';
+import * as actionCreators from '../../store/actions/index';
 
 class BurgerBuilder extends Component {
     state = {
         totalPrice: 150,
         showSummary: false,
-        loading: false,
-        error: false,
     };
+    componentDidMount() {
+        this.props.onInitIngredients();
+    }
     toggleOrderButton = (ingredients) => {
         return Object.values(ingredients).every((e) => e === 0);
     };
@@ -27,7 +28,7 @@ class BurgerBuilder extends Component {
         this.props.history.push('/checkout');
     };
     render() {
-        let burgerLayout = this.state.error ? (
+        let burgerLayout = this.props.error ? (
             <p>Ingredients could not be loaded</p>
         ) : (
             <Spinner />
@@ -84,15 +85,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onAddIngredient: (ingredient) =>
-            dispatch({
-                type: ActionTypes.ADD_INGREDIENT,
-                ingredient: ingredient,
-            }),
+            dispatch(actionCreators.addIngredient(ingredient)),
         onRemoveIngredient: (ingredient) =>
-            dispatch({
-                type: ActionTypes.REMOVE_INGREDIENT,
-                ingredient: ingredient,
-            }),
+            dispatch(actionCreators.removeIngredient(ingredient)),
+        onInitIngredients: () => 
+            dispatch(actionCreators.initIngredients())
     };
 };
 
