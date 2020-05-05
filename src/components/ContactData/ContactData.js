@@ -3,10 +3,10 @@ import {connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import classes from './ContactData.module.css';
-import axios from '../../../axios';
-import Spinner from '../../UI/Spinner/Spinner';
-import Input from '../../UI/Input/Input';
+import Spinner from '../UI/Spinner/Spinner';
+import Input from '../UI/Input/Input';
 import { CUSTOMER_FORM } from './FormHelper';
+import * as actionCreators from '../../store/actions/index';
 
 class ContactData extends Component {
     state = CUSTOMER_FORM;
@@ -25,7 +25,6 @@ class ContactData extends Component {
     };
     orderHandler = (event) => {
         event.preventDefault();
-        this.setState({ loading: true });
         let formData = {};
         for (let field in this.state.customerForm) {
             formData[field] = this.state.customerForm[field].value;
@@ -35,15 +34,7 @@ class ContactData extends Component {
             price: this.props.totalPrice,
             customerData: formData,
         };
-        axios
-            .post('/orders.json', order)
-            .then((response) => {
-                this.setState({ loading: false });
-                this.props.history.push('/orders');
-            })
-            .catch((error) => {
-                this.setState({ loading: false });
-            });
+        this.props.onPlaceOrder(order);
     };
     inputChangedHangler = (event, id) => {
         let formValidity = true;
@@ -99,7 +90,7 @@ class ContactData extends Component {
                 </button>
             </form>
         );
-        if (this.state.loading) {
+        if (this.props.loading) {
             form = <Spinner />;
         }
         return <div className={classes.ContactData}>{form}</div>;
@@ -108,9 +99,16 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
     return {
-        ingredients: state.ingredients,
-        totalPrice: state.totalPrice,
+        ingredients: state.burger.ingredients,
+        totalPrice: state.burger.totalPrice,
+        loading: state.order.loading
     };
 }
 
-export default connect(mapStateToProps)(withRouter(ContactData));
+const mapDispatchToProps = dispatch => {
+    return {
+        onPlaceOrder: order => dispatch(actionCreators.placeOrder(order))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ContactData));

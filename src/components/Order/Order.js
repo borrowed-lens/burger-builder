@@ -21,7 +21,15 @@ const order = (props) => {
     }
     return (
         <div className={classes.Order}>
-            <p>ingredients: {ingredientOutput}</p>
+            <p
+                style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    lineHeight: '30px',
+                }}>
+                ingredients: {ingredientOutput}
+            </p>
             <p>
                 total price: <strong>Rs. {props.price}/-</strong>
             </p>

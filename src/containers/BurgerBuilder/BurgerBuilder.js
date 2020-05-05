@@ -12,11 +12,13 @@ import * as actionCreators from '../../store/actions/index';
 
 class BurgerBuilder extends Component {
     state = {
-        totalPrice: 150,
         showSummary: false,
     };
     componentDidMount() {
-        this.props.onInitIngredients();
+        if (this.props.location.state !== 'cancel' || !this.props.ingredients) {
+            this.props.onInitIngredients();
+        }
+        this.props.history.replace('', null);
     }
     toggleOrderButton = (ingredients) => {
         return Object.values(ingredients).every((e) => e === 0);
@@ -25,11 +27,12 @@ class BurgerBuilder extends Component {
         this.setState({ showSummary: !this.state.showSummary });
     };
     checkoutHandler = () => {
+        this.props.onCheckoutStart();
         this.props.history.push('/checkout');
     };
     render() {
         let burgerLayout = this.props.error ? (
-            <p>Ingredients could not be loaded</p>
+            <p>ingredients could not be loaded</p>
         ) : (
             <Spinner />
         );
@@ -77,8 +80,8 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        ingredients: state.ingredients,
-        totalPrice: state.totalPrice,
+        ingredients: state.burger.ingredients,
+        totalPrice: state.burger.totalPrice,
     };
 };
 
@@ -88,8 +91,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(actionCreators.addIngredient(ingredient)),
         onRemoveIngredient: (ingredient) =>
             dispatch(actionCreators.removeIngredient(ingredient)),
-        onInitIngredients: () => 
-            dispatch(actionCreators.initIngredients())
+        onInitIngredients: () => dispatch(actionCreators.fetchIngredients()),
+        onCheckoutStart: () => dispatch(actionCreators.checkoutStart())
     };
 };
 

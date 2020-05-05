@@ -1,20 +1,27 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import CheckoutSummary from '../../components/Orders/CheckoutSummary/CheckoutSummary';
-import ContactData from '../../components/Orders/ContactData/ContactData';
+import CheckoutSummary from '../../components/CheckoutSummary/CheckoutSummary';
+import ContactData from '../../components/ContactData/ContactData';
 
 class Checkout extends Component {
     checkoutCancelledHandler = () => {
-        this.props.history.goBack();
+        this.props.history.push({
+            pathname: '/',
+            state: 'cancel',
+        });
     };
     checkoutContinueHandler = () => {
         this.props.history.replace('/checkout/contact-data');
     };
     render() {
+        const orderPlaced = this.props.orderPlaced ? (
+            <Redirect to='/orders' />
+        ) : null;
         return (
             <>
+                {orderPlaced}
                 <CheckoutSummary ingredients={this.props.ingredients} />
                 <button
                     className='ErrorButton'
@@ -35,10 +42,11 @@ class Checkout extends Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
-        ingredients: state.ingredients
-    }
-}
+        ingredients: state.burger.ingredients,
+        orderPlaced: state.order.orderPlaced,
+    };
+};
 
 export default connect(mapStateToProps)(Checkout);
