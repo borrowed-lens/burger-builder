@@ -27,11 +27,11 @@ const placeOrderError = () => {
     };
 };
 
-export const placeOrder = (order) => {
+export const placeOrder = (order, token) => {
     return (dispatch) => {
         dispatch(placeOrderStart());
         axios
-            .post('/orders.json', order)
+            .post(`/orders.json?auth=${token}`, order)
             .then((response) => {
                 dispatch(placeOrderSuccess(response.data, order));
             })
@@ -55,10 +55,10 @@ const fetchOrdersError = () => {
     };
 };
 
-export const fetchOrders = () => {
+export const fetchOrders = (token) => {
     return (dispatch) => {
         axios
-            .get('/orders.json')
+            .get(`/orders.json?auth=${token}`)
             .then((res) => {
                 console.log('fetchOrders -> res', res);
                 dispatch(fetchOrdersSuccess(res.data));

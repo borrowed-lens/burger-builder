@@ -38,7 +38,7 @@ class ContactData extends Component {
             price: this.props.totalPrice,
             customerData: formData,
         };
-        this.props.onPlaceOrder(order);
+        this.props.onPlaceOrder(order, this.props.token);
     };
     inputChangedHangler = (event, id) => {
         let formValidity = true;
@@ -105,13 +105,14 @@ const mapStateToProps = state => {
     return {
         ingredients: state.burger.ingredients,
         totalPrice: state.burger.totalPrice,
-        loading: state.order.loading
+        loading: state.order.loading,
+        token: state.auth.idToken
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onPlaceOrder: order => dispatch(actionCreators.placeOrder(order))
+        onPlaceOrder: (order, token) => dispatch(actionCreators.placeOrder(order, token))
     }
 }
 

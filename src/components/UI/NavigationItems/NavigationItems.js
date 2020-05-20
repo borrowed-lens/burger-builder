@@ -16,9 +16,15 @@ const navigationItems = (props) => (
                 </NavLink>
             </li>
             <li className={classes.NavigationItem}>
-                <NavLink to='/auth' activeClassName={classes.active}>
-                    signup/login
-                </NavLink>
+                {props.isAuthenticated ? (
+                    <NavLink to='/logout' activeClassName={classes.active}>
+                        logout
+                    </NavLink>
+                ) : (
+                    <NavLink to='/auth' activeClassName={classes.active}>
+                        signup/login
+                    </NavLink>
+                )}
             </li>
         </ul>
     </>

@@ -3,8 +3,8 @@ import * as actionTypes from '../actions/actions';
 const initialState = {
     loading: false,
     error: null,
-    idToken: '',
-    userId: '',
+    idToken: null,
+    userId: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -27,6 +27,12 @@ const reducer = (state = initialState, action) => {
                 error: action.error,
                 loading: false,
             };
+        case actionTypes.LOGOUT:
+            return {
+                ...state,
+                idToken: null,
+                userId: null
+            }
         default:
             return state;
     }

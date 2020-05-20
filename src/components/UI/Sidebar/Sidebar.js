@@ -19,7 +19,7 @@ const sidebar = (props) => {
                     <Logo />
                 </div>
                 <nav className={classes.MobileOnly}>
-                    <NavigationItems />
+                    <NavigationItems isAuthenticated={props.isAuth}/>
                 </nav>
             </div>
         </>
