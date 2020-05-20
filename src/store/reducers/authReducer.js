@@ -5,10 +5,16 @@ const initialState = {
     error: null,
     idToken: null,
     userId: null,
+    authRedirect: '/'
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.SET_AUTH_REDIRECT:
+            return {
+                ...state,
+                authRedirect: action.path
+            }
         case actionTypes.AUTH_START:
             return {
                 ...state,

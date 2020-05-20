@@ -15,16 +15,30 @@ class BurgerBuilder extends Component {
         showSummary: false,
     };
     componentDidMount() {
-        if (this.props.location.state !== 'cancel' || !this.props.ingredients) {
-            this.props.onInitIngredients();
+        // initial method for checking if user clicked back from checkout page
+                // if (this.props.location.state !== 'cancel' || !this.props.ingredients) {
+                //     this.props.onFetchIngredients();
+                // }
+                // this.props.history.replace('', null);
+        if (!this.props.buildingBurger) {
+            this.props.onFetchIngredients();
         }
-        this.props.history.replace('', null);
     }
     toggleOrderButton = (ingredients) => {
-        return Object.values(ingredients).every((e) => e === 0);
+        if (Object.values(ingredients).every((e) => e === 0)) {
+            this.props.onSetAuthRedirect('/');
+            return true;
+        } else {
+            return false;
+        }
     };
     toggleSummary = () => {
-        this.setState({ showSummary: !this.state.showSummary });
+        if (this.props.isAuthenticated) {
+            this.setState({ showSummary: !this.state.showSummary });
+        } else {
+            this.props.onSetAuthRedirect('/checkout');
+            this.props.history.push('/auth');
+        }
     };
     checkoutHandler = () => {
         this.props.onCheckoutStart();
@@ -50,6 +64,7 @@ class BurgerBuilder extends Component {
                             this.props.ingredients
                         )}
                         showSummary={this.toggleSummary}
+                        isAuthenticated={this.props.isAuthenticated}
                     />
                 </>
             );
@@ -82,6 +97,8 @@ const mapStateToProps = (state) => {
     return {
         ingredients: state.burger.ingredients,
         totalPrice: state.burger.totalPrice,
+        isAuthenticated: state.auth.idToken !== null,
+        buildingBurger: state.burger.buildingBurger,
     };
 };
 
@@ -91,8 +108,10 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(actionCreators.addIngredient(ingredient)),
         onRemoveIngredient: (ingredient) =>
             dispatch(actionCreators.removeIngredient(ingredient)),
-        onInitIngredients: () => dispatch(actionCreators.fetchIngredients()),
-        onCheckoutStart: () => dispatch(actionCreators.checkoutStart())
+        onFetchIngredients: () => dispatch(actionCreators.fetchIngredients()),
+        onCheckoutStart: () => dispatch(actionCreators.checkoutStart()),
+        onSetAuthRedirect: (path) =>
+            dispatch(actionCreators.setAuthRedirect(path)),
     };
 };
 

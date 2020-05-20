@@ -1,6 +1,13 @@
 import * as actionTypes from './actions';
 import axios from 'axios';
 
+export const setAuthRedirect = (path) => {
+    return {
+        type: actionTypes.SET_AUTH_REDIRECT,
+        path: path
+    }
+}
+
 const authStart = () => {
     return {
         type: actionTypes.AUTH_START,

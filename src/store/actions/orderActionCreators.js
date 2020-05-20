@@ -41,6 +41,12 @@ export const placeOrder = (order, token) => {
     };
 };
 
+const fetchOrderStart = () => {
+    return {
+        type: actionTypes.FETCH_ORDERS_START
+    }
+}
+
 const fetchOrdersSuccess = (orders) => {
     console.log("fetchOrdersSuccess -> orders", orders)
     return {
@@ -57,6 +63,7 @@ const fetchOrdersError = () => {
 
 export const fetchOrders = (token) => {
     return (dispatch) => {
+        dispatch(fetchOrderStart());
         axios
             .get(`/orders.json?auth=${token}`)
             .then((res) => {

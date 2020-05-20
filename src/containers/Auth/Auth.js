@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import Input from '../../components/UI/Input/Input';
 import * as actionCreators from '../../store/actions/index';
@@ -42,6 +43,14 @@ class Auth extends Component {
         },
         login: false,
     };
+    componentDidMount() {
+        if (
+            !this.props.buildingBurger &&
+            this.props.authRedirect !== '/checkout'
+        ) {
+            this.props.onSetAuthRedirect();
+        }
+    }
     checkValidation = (value, rules) => {
         let isValid = false;
         if (rules.required) {
@@ -118,12 +127,33 @@ class Auth extends Component {
             </form>
         );
         if (this.props.loading) {
-            form = (<div className={classes.loaderContainer}>
-                <Spinner />
-                </div>);
+            form = (
+                <div className={classes.loaderContainer}>
+                    <Spinner />
+                </div>
+            );
+        }
+        let errorMessage = null;
+        if (this.props.error) {
+            errorMessage = (
+                <p
+                    style={{
+                        fontWeight: 'bold',
+                        color: 'red',
+                        textTransform: 'lowercase',
+                    }}>
+                    {this.props.error.message.split('_').join(' ')}
+                </p>
+            );
+        }
+        let authRedirect = null;
+        if (this.props.isAuthenticated) {
+            authRedirect = <Redirect to={this.props.authRedirect} />;
         }
         return (
             <div className={classes.AuthData}>
+                {authRedirect}
+                {errorMessage}
                 {form}
                 {this.state.login ? 'new user' : 'existing user'}? click here to
                 <span
@@ -140,6 +170,9 @@ const mapStateToProps = (state) => {
     return {
         loading: state.auth.loading,
         error: state.auth.error,
+        isAuthenticated: state.auth.idToken !== null,
+        buildingBurger: state.burger.buildingBurger,
+        authRedirect: state.auth.authRedirect,
     };
 };
 
@@ -147,6 +180,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onAuth: (email, password, login) =>
             dispatch(actionCreators.auth(email, password, login)),
+        onSetAuthRedirect: () => dispatch(actionCreators.setAuthRedirect('/')),
     };
 };
 

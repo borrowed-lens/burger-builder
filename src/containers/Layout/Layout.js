@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import classes from './Layout.module.css';
-import Toolbar from '../UI/Toolbar/Toolbar';
-import Sidebar from '../UI/Sidebar/Sidebar';
+import Toolbar from '../../components/UI/Toolbar/Toolbar';
+import Sidebar from '../../components/UI/Sidebar/Sidebar';
 
 class Layout extends Component {
     state = {

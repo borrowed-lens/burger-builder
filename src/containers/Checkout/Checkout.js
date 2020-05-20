@@ -7,10 +7,12 @@ import ContactData from '../../components/ContactData/ContactData';
 
 class Checkout extends Component {
     checkoutCancelledHandler = () => {
-        this.props.history.push({
-            pathname: '/',
-            state: 'cancel',
-        });
+        // initial method for checking if user clicked back from checkout page by passing state in history
+        // this.props.history.push({
+        //     pathname: '/',
+        //     state: 'cancel',
+        // });
+        this.props.history.push('/');
     };
     checkoutContinueHandler = () => {
         this.props.history.replace('/checkout/contact-data');
