@@ -48,7 +48,6 @@ const fetchOrderStart = () => {
 }
 
 const fetchOrdersSuccess = (orders) => {
-    console.log("fetchOrdersSuccess -> orders", orders)
     return {
         type: actionTypes.FETCH_ORDERS_SUCCESS,
         orders: orders,
@@ -67,7 +66,6 @@ export const fetchOrders = (token) => {
         axios
             .get(`/orders.json?auth=${token}`)
             .then((res) => {
-                console.log('fetchOrders -> res', res);
                 dispatch(fetchOrdersSuccess(res.data));
             })
             .catch((error) => {

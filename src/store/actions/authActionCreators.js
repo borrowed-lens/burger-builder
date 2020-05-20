@@ -4,9 +4,9 @@ import axios from 'axios';
 export const setAuthRedirect = (path) => {
     return {
         type: actionTypes.SET_AUTH_REDIRECT,
-        path: path
-    }
-}
+        path: path,
+    };
+};
 
 const authStart = () => {
     return {
@@ -30,8 +30,32 @@ const authError = (error) => {
 };
 
 export const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiryDate');
+    localStorage.removeItem('userId');
     return {
         type: actionTypes.LOGOUT,
+    };
+};
+
+export const authCheck = () => {
+    return (dispatch) => {
+        const token = localStorage.getItem('token');
+        const expiryDate = new Date(localStorage.getItem('expiryDate'));
+        if (!token) {
+            dispatch(logout());
+        } else {
+            if (expiryDate > new Date()) {
+                dispatch(authSuccess(token, expiryDate));
+                dispatch(
+                    authTimeout(
+                        (expiryDate.getTime() - new Date().getTime()) / 1000
+                    )
+                );
+            } else {
+                dispatch(logout());
+            }
+        }
     };
 };
 
@@ -63,6 +87,12 @@ export const auth = (email, password, login) => {
                 dispatch(
                     authSuccess(response.data.idToken, response.data.localId)
                 );
+                const expiryDate = new Date(
+                    new Date().getTime() + response.data.expiresIn * 1000
+                );
+                localStorage.setItem('token', response.data.idToken);
+                localStorage.setItem('userId', response.data.localId);
+                localStorage.setItem('expiryDate', expiryDate);
                 dispatch(authTimeout(response.data.expiresIn));
             })
             .catch((error) => {

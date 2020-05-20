@@ -3,7 +3,6 @@ import React from 'react';
 import classes from './Order.module.css';
 
 const order = (props) => {
-    console.log(props);
     let ingredientOutput = [];
     for (let key in props.ingredients) {
         ingredientOutput.push(
