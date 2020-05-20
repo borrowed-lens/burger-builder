@@ -76,7 +76,7 @@ class Auth extends Component {
     };
     submitHandler = (event) => {
         event.preventDefault();
-        this.props.onSignup(
+        this.props.onAuth(
             this.state.authForm.email.value,
             this.state.authForm.password.value,
             this.state.login
@@ -145,8 +145,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSignup: (email, password, login) =>
-            dispatch(actionCreators.signup(email, password, login)),
+        onAuth: (email, password, login) =>
+            dispatch(actionCreators.auth(email, password, login)),
     };
 };
 

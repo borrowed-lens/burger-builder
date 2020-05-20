@@ -1,31 +1,31 @@
 import * as actionTypes from './actions';
 import axios from 'axios';
 
-const signupStart = () => {
+const authStart = () => {
     return {
-        type: actionTypes.SIGNUP_START,
+        type: actionTypes.AUTH_START,
     };
 };
 
-const signupSuccess = (idToken, localId) => {
+const authSuccess = (idToken, localId) => {
     return {
-        type: actionTypes.SIGNUP_SUCCESS,
+        type: actionTypes.AUTH_SUCCESS,
         idToken: idToken,
         localId: localId
     };
 };
 
-const signupError = (error) => {
+const authError = (error) => {
     return {
-        type: actionTypes.SIGNUP_ERROR,
+        type: actionTypes.AUTH_ERROR,
         error: error,
     };
 };
 
-export const signup = (email, password, login) => {
+export const auth = (email, password, login) => {
     return (dispatch) => {
-        dispatch(signupStart());
-        let signupData = {
+        dispatch(authStart());
+        let authData = {
             email: email,
             password: password,
             returnSecureToken: true,
@@ -37,13 +37,13 @@ export const signup = (email, password, login) => {
         axios
             .post(
                 url,
-                signupData
+                authData
             )
             .then((response) => {
-                dispatch(signupSuccess(response.data.idToken, response.data.localId));
+                dispatch(authSuccess(response.data.idToken, response.data.localId));
             })
             .catch((error) => {
-                dispatch(signupError(error.response.data.error));
+                dispatch(authError(error.response.data.error));
             });
     };
 };

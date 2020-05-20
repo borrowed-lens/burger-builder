@@ -9,19 +9,19 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.SIGNUP_START:
+        case actionTypes.AUTH_START:
             return {
                 ...state,
                 loading: true,
             };
-        case actionTypes.SIGNUP_SUCCESS:
+        case actionTypes.AUTH_SUCCESS:
             return {
                 ...state,
                 idToken: action.idToken,
                 userId: action.localId,
                 loading: false,
             };
-        case actionTypes.SIGNUP_ERROR:
+        case actionTypes.AUTH_ERROR:
             return {
                 ...state,
                 error: action.error,
