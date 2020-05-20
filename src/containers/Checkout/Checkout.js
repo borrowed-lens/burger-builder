@@ -26,7 +26,7 @@ class Checkout extends Component {
                 <button
                     className='ErrorButton'
                     onClick={this.checkoutCancelledHandler}>
-                    CANCEL
+                    BACK
                 </button>
                 <button
                     className='SuccessButton'

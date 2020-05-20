@@ -15,6 +15,11 @@ const navigationItems = (props) => (
                     orders
                 </NavLink>
             </li>
+            <li className={classes.NavigationItem}>
+                <NavLink to='/auth' activeClassName={classes.active}>
+                    signup/login
+                </NavLink>
+            </li>
         </ul>
     </>
 );

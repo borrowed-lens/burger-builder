@@ -21,6 +21,10 @@ class ContactData extends Component {
         if (rules.maxLength && isValid) {
             isValid = value.trim().length <= rules.maxLength;
         }
+        if(rules.isEmail && isValid) {
+            let pattern = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/;
+            isValid = pattern.test(value); 
+        }
         return isValid;
     };
     orderHandler = (event) => {

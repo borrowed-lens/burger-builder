@@ -31,7 +31,7 @@
     border-bottom: 2px solid #5ca200;
 }
 
-@media (min-width: 500px) {
+@media (min-width: 665px) {
     .NavigationItems {
         align-items: center;
         flex-direction: row;

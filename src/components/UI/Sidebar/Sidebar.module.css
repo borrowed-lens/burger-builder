@@ -24,7 +24,7 @@
     transform: translateX(-100%);
 }
 
-@media (min-width: 500px) {
+@media (min-width: 665px) {
     .MobileOnly{
         display: none;
     }

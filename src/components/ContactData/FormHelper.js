@@ -23,7 +23,8 @@ export const CUSTOMER_FORM = {
             },
             value: '',
             validationRules: {
-                required: true
+                required: true,
+                isEmail: true
             },
             valid: false,
             touched: false
