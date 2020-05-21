@@ -43,19 +43,19 @@ class ContactData extends Component {
     };
     inputChangedHangler = (event, id) => {
         let formValidity = true;
-        const updatedCustomerForm = {
-            ...this.state.customerForm,
-        };
         const updatedField = {
             ...this.state.customerForm[id],
+            value: event.target.value,
+            valid: this.checkValidation(
+                event.target.value,
+                this.state.customerForm[id].validationRules
+            ),
+            touched: true
         };
-        updatedField.value = event.target.value;
-        updatedField.valid = this.checkValidation(
-            updatedField.value,
-            updatedField.validationRules
-        );
-        updatedField.touched = true;
-        updatedCustomerForm[id] = updatedField;
+        const updatedCustomerForm = {
+            ...this.state.customerForm,
+            [id]: updatedField
+        };
         for (let field in updatedCustomerForm) {
             formValidity = updatedCustomerForm[field].valid && formValidity;
         }

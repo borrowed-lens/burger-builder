@@ -66,19 +66,19 @@ class Auth extends Component {
         return isValid;
     };
     inputChangedHangler = (event, id) => {
-        let updatedAuthForm = {
-            ...this.state.authForm,
-        };
         let updatedField = {
             ...this.state.authForm[id],
+            value: event.target.value,
+            valid: this.checkValidation(
+                event.target.value,
+                this.state.authForm[id].validationRules
+            ),
+            touched: true,
         };
-        updatedField.value = event.target.value;
-        updatedField.valid = this.checkValidation(
-            updatedField.value,
-            updatedField.validationRules
-        );
-        updatedField.touched = true;
-        updatedAuthForm[id] = updatedField;
+        let updatedAuthForm = {
+            ...this.state.authForm,
+            [id]: updatedField,
+        };
         this.setState({
             authForm: updatedAuthForm,
         });

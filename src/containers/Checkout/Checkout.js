@@ -18,6 +18,8 @@ class Checkout extends Component {
         this.props.history.replace('/checkout/contact-data');
     };
     render() {
+        console.log(this.props);
+        
         const orderPlaced = this.props.orderPlaced ? (
             <Redirect to='/orders' />
         ) : null;

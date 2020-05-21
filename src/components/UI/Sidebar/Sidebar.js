@@ -14,12 +14,12 @@ const sidebar = (props) => {
     return (
         <>
             <Backdrop show={props.show} toggle={props.toggle} />
-            <div className={assignedClasses.join(' ')}>
+            <div className={assignedClasses.join(' ')} onClick={props.toggle}>
                 <div className={classes.Logo}>
                     <Logo />
                 </div>
                 <nav className={classes.MobileOnly}>
-                    <NavigationItems isAuthenticated={props.isAuth}/>
+                    <NavigationItems isAuthenticated={props.isAuth} />
                 </nav>
             </div>
         </>
