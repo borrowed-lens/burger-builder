@@ -14,11 +14,11 @@ const authStart = () => {
     };
 };
 
-const authSuccess = (idToken, localId) => {
+const authSuccess = (idToken, userId) => {
     return {
         type: actionTypes.AUTH_SUCCESS,
         idToken: idToken,
-        localId: localId,
+        userId: userId,
     };
 };
 
@@ -42,11 +42,12 @@ export const authCheck = () => {
     return (dispatch) => {
         const token = localStorage.getItem('token');
         const expiryDate = new Date(localStorage.getItem('expiryDate'));
+        const userId = localStorage.getItem('userId');
         if (!token) {
             dispatch(logout());
         } else {
             if (expiryDate > new Date()) {
-                dispatch(authSuccess(token, expiryDate));
+                dispatch(authSuccess(token, userId));
                 dispatch(
                     authTimeout(
                         (expiryDate.getTime() - new Date().getTime()) / 1000

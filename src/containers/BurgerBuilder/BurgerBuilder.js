@@ -20,7 +20,7 @@ class BurgerBuilder extends Component {
                 //     this.props.onFetchIngredients();
                 // }
                 // this.props.history.replace('', null);
-        if (!this.props.buildingBurger) {
+        if (!this.props.buildingBurger || this.props.orderPlaced) {
             this.props.onFetchIngredients();
         }
     }
@@ -99,6 +99,7 @@ const mapStateToProps = (state) => {
         totalPrice: state.burger.totalPrice,
         isAuthenticated: state.auth.idToken !== null,
         buildingBurger: state.burger.buildingBurger,
+        orderPlaced: state.order.orderPlaced
     };
 };
 

@@ -24,7 +24,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 idToken: action.idToken,
-                userId: action.localId,
+                userId: action.userId,
                 loading: false,
             };
         case actionTypes.AUTH_ERROR:
