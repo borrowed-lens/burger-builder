@@ -10,7 +10,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withError from '../../HOC/WithError/withErrorHOC';
 import * as actionCreators from '../../store/actions/index';
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
     state = {
         showSummary: false,
     };
