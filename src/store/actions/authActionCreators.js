@@ -30,11 +30,8 @@ const authError = (error) => {
 };
 
 export const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expiryDate');
-    localStorage.removeItem('userId');
     return {
-        type: actionTypes.LOGOUT,
+        type: actionTypes.INITIATE_LOGOUT,
     };
 };
 
