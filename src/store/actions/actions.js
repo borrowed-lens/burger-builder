@@ -18,6 +18,7 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_CHECK = 'AUTH_CHECK';
 export const INITIATE_LOGOUT = 'INITIATE_LOGOUT';
 export const INITIATE_AUTH_TIMEOUT = 'INITIATE_AUTH_TIMEOUT';
+export const INITIATE_AUTH = 'INITIATE_AUTH';
 export const LOGOUT = 'LOGOUT';
 
 

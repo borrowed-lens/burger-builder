@@ -1,5 +1,4 @@
 import * as actionTypes from './actions';
-import axios from 'axios';
 
 export const setAuthRedirect = (path) => {
     return {
@@ -8,13 +7,13 @@ export const setAuthRedirect = (path) => {
     };
 };
 
-const authStart = () => {
+export const authStart = () => {
     return {
         type: actionTypes.AUTH_START,
     };
 };
 
-const authSuccess = (idToken, userId) => {
+export const authSuccess = (idToken, userId) => {
     return {
         type: actionTypes.AUTH_SUCCESS,
         idToken: idToken,
@@ -22,7 +21,7 @@ const authSuccess = (idToken, userId) => {
     };
 };
 
-const authError = (error) => {
+export const authError = (error) => {
     return {
         type: actionTypes.AUTH_ERROR,
         error: error,
@@ -57,43 +56,18 @@ export const authCheck = () => {
     };
 };
 
-const authTimeout = (expirationTime) => {
+export const authTimeout = (expirationTime) => {
     return {
         type: actionTypes.INITIATE_AUTH_TIMEOUT,
-        expirationTime
-    }
+        expirationTime,
+    };
 };
 
 export const auth = (email, password, login) => {
-    return (dispatch) => {
-        dispatch(authStart());
-        let authData = {
-            email: email,
-            password: password,
-            returnSecureToken: true,
-        };
-        let url =
-            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBAkIwAHJwexP4HTbK85SL-7rrt5AT56fw';
-        if (login) {
-            url =
-                'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBAkIwAHJwexP4HTbK85SL-7rrt5AT56fw';
-        }
-        axios
-            .post(url, authData)
-            .then((response) => {
-                dispatch(
-                    authSuccess(response.data.idToken, response.data.localId)
-                );
-                const expiryDate = new Date(
-                    new Date().getTime() + response.data.expiresIn * 1000
-                );
-                localStorage.setItem('token', response.data.idToken);
-                localStorage.setItem('userId', response.data.localId);
-                localStorage.setItem('expiryDate', expiryDate);
-                dispatch(authTimeout(response.data.expiresIn));
-            })
-            .catch((error) => {
-                dispatch(authError(error.response.data.error));
-            });
+    return {
+        type: actionTypes.INITIATE_AUTH,
+        email,
+        password,
+        login,
     };
 };
