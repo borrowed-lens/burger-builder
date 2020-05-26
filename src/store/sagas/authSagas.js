@@ -1,8 +1,9 @@
-import { put, takeEvery } from 'redux-saga/effects';
+import { put, delay } from 'redux-saga/effects';
 
 import * as actionTypes from '../actions/actions';
+import * as actionCreators from '../actions/index';
 
-function* logoutSaga() {
+export function* logoutSaga() {
     yield localStorage.removeItem('token');
     yield localStorage.removeItem('expiryDate');
     yield localStorage.removeItem('userId');
@@ -11,6 +12,7 @@ function* logoutSaga() {
     });
 }
 
-export function* watchLogout() {
-    yield takeEvery(actionTypes.INITIATE_LOGOUT, logoutSaga)
+export function* authTimeoutSaga({ expirationTime }) {
+    yield delay(expirationTime * 1000);
+    yield put(actionCreators.logout());
 }

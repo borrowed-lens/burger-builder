@@ -58,11 +58,10 @@ export const authCheck = () => {
 };
 
 const authTimeout = (expirationTime) => {
-    return (dispatch) => {
-        setTimeout(() => {
-            dispatch(logout());
-        }, expirationTime * 1000);
-    };
+    return {
+        type: actionTypes.INITIATE_AUTH_TIMEOUT,
+        expirationTime
+    }
 };
 
 export const auth = (email, password, login) => {
