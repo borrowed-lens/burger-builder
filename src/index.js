@@ -12,7 +12,11 @@ import App from './App';
 import burgerReducer from './store/reducers/burgerReducer';
 import orderReducer from './store/reducers/orderReducer';
 import authReducer from './store/reducers/authReducer';
-import { watchAuthSaga, watchBurgerSaga } from './store/sagas/index';
+import {
+    watchAuthSaga,
+    watchBurgerSaga,
+    watchOrdersSaga,
+} from './store/sagas/index';
 
 const composeEnhancers =
     process.env.NODE_ENV === 'development'
@@ -34,6 +38,7 @@ const store = createStore(
 
 sagaMiddleware.run(watchAuthSaga);
 sagaMiddleware.run(watchBurgerSaga);
+sagaMiddleware.run(watchOrdersSaga);
 
 const app = (
     <Provider store={store}>
