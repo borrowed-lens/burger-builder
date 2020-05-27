@@ -39,7 +39,7 @@ export function* authSaga({ email, password, login }) {
                 response.data.localId
             )
         );
-        const expiryDate = new Date(
+        const expiryDate = yield new Date(
             new Date().getTime() + response.data.expiresIn * 1000
         );
         yield localStorage.setItem('token', response.data.idToken);
@@ -48,5 +48,25 @@ export function* authSaga({ email, password, login }) {
         yield put(actionCreators.authTimeout(response.data.expiresIn));
     } catch (error) {
         yield put(actionCreators.authError(error.response.data.error));
+    }
+}
+
+export function* authCheckSaga() {
+    const token = yield localStorage.getItem('token');
+    const expiryDate = yield new Date(localStorage.getItem('expiryDate'));
+    const userId = yield localStorage.getItem('userId');
+    if (!token) {
+        yield put(actionCreators.logout());
+    } else {
+        if (expiryDate > new Date()) {
+            yield put(actionCreators.authSuccess(token, userId));
+            yield put(
+                actionCreators.authTimeout(
+                    (expiryDate.getTime() - new Date().getTime()) / 1000
+                )
+            );
+        } else {
+            yield put(actionCreators.logout());
+        }
     }
 }

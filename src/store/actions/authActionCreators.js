@@ -35,24 +35,8 @@ export const logout = () => {
 };
 
 export const authCheck = () => {
-    return (dispatch) => {
-        const token = localStorage.getItem('token');
-        const expiryDate = new Date(localStorage.getItem('expiryDate'));
-        const userId = localStorage.getItem('userId');
-        if (!token) {
-            dispatch(logout());
-        } else {
-            if (expiryDate > new Date()) {
-                dispatch(authSuccess(token, userId));
-                dispatch(
-                    authTimeout(
-                        (expiryDate.getTime() - new Date().getTime()) / 1000
-                    )
-                );
-            } else {
-                dispatch(logout());
-            }
-        }
+    return {
+        type: actionTypes.INITIATE_AUTH_CHECK
     };
 };
 
