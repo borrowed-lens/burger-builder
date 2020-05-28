@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Burger from '../../components/Burger/Burger';
@@ -10,87 +10,76 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withError from '../../HOC/WithError/withErrorHOC';
 import * as actionCreators from '../../store/actions/index';
 
-export class BurgerBuilder extends Component {
-    state = {
-        showSummary: false,
-    };
-    componentDidMount() {
-        // initial method for checking if user clicked back from checkout page
-                // if (this.props.location.state !== 'cancel' || !this.props.ingredients) {
-                //     this.props.onFetchIngredients();
-                // }
-                // this.props.history.replace('', null);
-        if (!this.props.buildingBurger || this.props.orderPlaced) {
-            this.props.onFetchIngredients();
+const BurgerBuilder = props => {
+    const [showSummary, setShowSummary] = useState(false);
+    useEffect(() => {
+        if (!props.buildingBurger || props.orderPlaced) {
+            props.onFetchIngredients();
         }
-    }
-    toggleOrderButton = (ingredients) => {
+    // eslint-disable-next-line
+    }, [])
+    const toggleOrderButton = (ingredients) => {
         if (Object.values(ingredients).every((e) => e === 0)) {
-            this.props.onSetAuthRedirect('/');
+            props.onSetAuthRedirect('/');
             return true;
         } else {
             return false;
         }
     };
-    toggleSummary = () => {
-        if (this.props.isAuthenticated) {
-            this.setState({ showSummary: !this.state.showSummary });
+    const toggleSummary = () => {
+        if (props.isAuthenticated) {
+            setShowSummary(!showSummary);
         } else {
-            this.props.onSetAuthRedirect('/checkout');
-            this.props.history.push('/auth');
+            props.onSetAuthRedirect('/checkout');
+            props.history.push('/auth');
         }
     };
-    checkoutHandler = () => {
-        this.props.onCheckoutStart();
-        this.props.history.push('/checkout');
+    const checkoutHandler = () => {
+        props.onCheckoutStart();
+        props.history.push('/checkout');
     };
-    render() {
-        let burgerLayout = this.props.error ? (
+        let burgerLayout = props.error ? (
             <p>ingredients could not be loaded</p>
         ) : (
             <Spinner />
         );
         let orderSummary = null;
-        if (this.props.ingredients) {
+        if (props.ingredients) {
             burgerLayout = (
                 <>
-                    <Burger ingredients={this.props.ingredients} />
+                    <Burger ingredients={props.ingredients} />
                     <BuildControls
-                        addIngredients={this.props.onAddIngredient}
-                        removeIngredients={this.props.onRemoveIngredient}
-                        ingredientsDisabled={this.props.ingredients}
-                        price={this.props.totalPrice}
-                        disabled={this.toggleOrderButton(
-                            this.props.ingredients
+                        addIngredients={props.onAddIngredient}
+                        removeIngredients={props.onRemoveIngredient}
+                        ingredientsDisabled={props.ingredients}
+                        price={props.totalPrice}
+                        disabled={toggleOrderButton(
+                            props.ingredients
                         )}
-                        showSummary={this.toggleSummary}
-                        isAuthenticated={this.props.isAuthenticated}
+                        showSummary={toggleSummary}
+                        isAuthenticated={props.isAuthenticated}
                     />
                 </>
             );
             orderSummary = (
                 <OrderSummary
-                    ingredients={this.props.ingredients}
-                    price={this.props.totalPrice}
-                    cancel={this.toggleSummary}
-                    checkout={this.checkoutHandler}
+                    ingredients={props.ingredients}
+                    price={props.totalPrice}
+                    cancel={toggleSummary}
+                    checkout={checkoutHandler}
                 />
             );
-        }
-        if (this.state.loading) {
-            orderSummary = <Spinner />;
         }
         return (
             <>
                 <Modal
-                    show={this.state.showSummary}
-                    toggle={this.toggleSummary}>
+                    show={showSummary}
+                    toggle={toggleSummary}>
                     {orderSummary}
                 </Modal>
                 {burgerLayout}
             </>
         );
-    }
 }
 
 const mapStateToProps = (state) => {
