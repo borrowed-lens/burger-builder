@@ -1,34 +1,27 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import classes from './Layout.module.css';
 import Toolbar from '../../components/UI/Toolbar/Toolbar';
 import Sidebar from '../../components/UI/Sidebar/Sidebar';
 
-class Layout extends Component {
-    state = {
-        sidebarOpen: false,
+const Layout = (props) => {
+    const [sidebarOpen, setSideBarOpen] = useState(false);
+    const toggleSideBarView = () => {
+        setSideBarOpen(!sidebarOpen);
     };
-    toggleSideBarView = () => {
-        this.setState((prevState) => ({ sidebarOpen: !prevState.sidebarOpen }));
-    };
-    render() {
-        return (
-            <>
-                <Toolbar
-                    menu={this.toggleSideBarView}
-                    isAuth={this.props.isAuthenticated}
-                />
-                <Sidebar
-                    isAuth={this.props.isAuthenticated}
-                    show={this.state.sidebarOpen}
-                    toggle={this.toggleSideBarView}
-                />
-                <main className={classes.content}>{this.props.children}</main>
-            </>
-        );
-    }
-}
+    return (
+        <>
+            <Toolbar menu={toggleSideBarView} isAuth={props.isAuthenticated} />
+            <Sidebar
+                isAuth={props.isAuthenticated}
+                show={sidebarOpen}
+                toggle={toggleSideBarView}
+            />
+            <main className={classes.content}>{props.children}</main>
+        </>
+    );
+};
 
 const mapStateToProps = (state) => {
     return {
