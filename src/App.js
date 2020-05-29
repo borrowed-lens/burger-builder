@@ -12,11 +12,11 @@ const Checkout = React.lazy(() => import('./containers/Checkout/Checkout'));
 const Orders = React.lazy(() => import('./containers/Orders/Orders'));
 const Auth = React.lazy(() => import('./containers/Auth/Auth'));
 
-const App = props => {
+const App = (props) => {
+    const { onAuthCheck } = props;
     useEffect(() => {
-        props.onAuthCheck();
-    // eslint-disable-next-line
-    }, []);
+        onAuthCheck();
+    }, [onAuthCheck]);
     let routes = (
         <Switch>
             <Route path='/auth' render={() => <Auth />} />

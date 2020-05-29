@@ -8,6 +8,7 @@ import classes from './Auth.module.css';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
 const Auth = (props) => {
+    const { buildingBurger, authRedirect, onSetAuthRedirect } = props;
     const [authForm, setAuthForm] = useState({
         email: {
             elementType: 'input',
@@ -42,11 +43,10 @@ const Auth = (props) => {
     });
     const [login, setLogin] = useState(false);
     useEffect(() => {
-        if (!props.buildingBurger && props.authRedirect !== '/checkout') {
-            props.onSetAuthRedirect();
+        if (!buildingBurger && authRedirect !== '/checkout') {
+            onSetAuthRedirect();
         }
-    // eslint-disable-next-line
-    }, []);
+    }, [buildingBurger, authRedirect, onSetAuthRedirect]);
     const checkValidation = (value, rules) => {
         let isValid = false;
         if (rules.required) {
@@ -129,13 +129,13 @@ const Auth = (props) => {
             </p>
         );
     }
-    let authRedirect = null;
+    let authRedirectTo = null;
     if (props.isAuthenticated) {
-        authRedirect = <Redirect to={props.authRedirect} />;
+        authRedirectTo = <Redirect to={authRedirect} />;
     }
     return (
         <div className={classes.AuthData}>
-            {authRedirect}
+            {authRedirectTo}
             {errorMessage}
             {form}
             {login ? 'new user' : 'existing user'}? click here to

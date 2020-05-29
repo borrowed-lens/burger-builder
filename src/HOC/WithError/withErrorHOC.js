@@ -2,7 +2,7 @@ import React from 'react';
 
 import Modal from '../../components/UI/Modal/Modal';
 import axios from '../../axios';
-import useCustomErrorHandler from '../../hooks/http-error-handler';
+import useCustomErrorHandler from '../../hooks/httpErrorHandler';
 
 const withErrorHOC = (WrappedComponent) => {
     return (props) => {
